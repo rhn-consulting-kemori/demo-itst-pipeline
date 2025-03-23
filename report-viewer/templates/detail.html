@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<base target="_top">
+<title>Report Viewer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Test Pipeline Result">
+</head>
+
+<body>
+
+<div id="container">
+<div id="contents">
+<section id="category">
+
+<h2>テストパイプライン詳細レポート</h2>
+<div class="list">
+  <h3>テスト</h3>
+  <table class="ta1">
+    <tr><th>テスト結果SEQ</th><th>テストID</th><th>テスト名</th></tr>
+    <tr>
+      <td>{{ test_result.test_result_seq }}</td>
+      <td>{{ test_result.test_id }}</td>
+      <td>{{ test_result.test_name }}</td>
+    </tr>
+  </table>
+  <table class="ta1">
+    <tr><th>グループ</th><th>パイプライン</th><th>想定日</th><th>開始</th><th>終了</th></tr>
+    <tr>
+      <td>{{ test_pipeline_summary.test_group }}</td>
+      <td>{{ test_pipeline_summary.test_pipeline }}</td>
+      <td>{{ test_pipeline_summary.simulation_date }}</td>
+      <td>{{ test_pipeline_summary.start_time }}</td>
+      <td>{{ test_pipeline_summary.end_time }}</td>
+    </tr>
+  </table>
+</div>
+
+<div class="list">
+  <h3>テストタスク</h3>
+  <table class="ta1">
+    <tr><th>タスク</th><th>開始</th><th>終了</th><th>結果</th><th>エビデンス</th></tr>
+    {% for test_task_run in test_task_runs %}
+      <tr>
+        <td>{{ test_task_run.test_task }}</td>
+        <td>{{ test_task_run.start_time }}</td>
+        <td>{{ test_task_run.end_time }}</td>
+        <td>{{ test_task_run.test_result }}</td>
+        <td>{{ test_task_run.evidence_link }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+</div>
+
+</section>
+<!--/#category-->
+<p class="centered-text"><input type="button" value="戻る" onclick="location.href = '/report?test_result_seq={{ test_result.test_result_seq }}';"></p>
+</div>
+<!--/#contents-->
+
+</div>
+<!--/#container-->
+
+<footer>
+  <p>Demo from Red Hat</p>
+</footer>
+
+<!--CSSファイルの読み込み-->
+<link href="/static/css/main.css" rel="stylesheet">
+
+<!--jQueryファイルの読み込み-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</body>
+</html>

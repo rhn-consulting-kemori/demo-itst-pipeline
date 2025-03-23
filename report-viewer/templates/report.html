@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<base target="_top">
+<title>Report Viewer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Test Pipeline Result">
+</head>
+
+<body>
+
+<div id="container">
+<div id="contents">
+<section id="category">
+
+<h2>テストパイプラインレポート</h2>
+<div class="list">
+  <h3>テスト</h3>
+  <table class="ta1">
+    <tr><th>テスト結果SEQ</th><th>テストID</th><th>テスト名</th></tr>
+    <tr>
+      <td>{{ test_result.test_result_seq }}</td>
+      <td>{{ test_result.test_id }}</td>
+      <td>{{ test_result.test_name }}</td>
+    </tr>
+  </table>
+  <table class="ta1">
+    <tr>
+      <td>{{ test_result.test_description }}</td>
+    </tr>
+  </table>
+</div>
+
+<div class="list">
+  <h3>テストパイプライン</h3>
+  <table class="ta1">
+    <tr><th>グループ</th><th>パイプライン</th><th>想定日</th><th>開始/終了</th><th>実行数</th><th>OK</th><th>NG</th><th>詳細</th></tr>
+    <tr>
+      <td class="summary">計</td>
+      <td class="summary"></td>
+      <td class="summary"></td>
+      <td class="summary"></td>
+      <td class="summary">{{ test_result.run_count }}</td>
+      <td class="summary">{{ test_result.ok_count }}</td>
+      <td class="summary">{{ test_result.ng_count }}</td>
+      <td class="summary"></td>
+    </tr>
+    {% for test_pipeline_summary in test_pipeline_summarys %}
+      <tr>
+        <td>{{ test_pipeline_summary.test_group }}</td>
+        <td>{{ test_pipeline_summary.test_pipeline }}</td>
+        <td>{{ test_pipeline_summary.simulation_date }}</td>
+        <td>{{ test_pipeline_summary.start_time }}<br/>{{ test_pipeline_summary.end_time }}</td>
+        <td>{{ test_pipeline_summary.run_count }}</td>
+        <td>{{ test_pipeline_summary.ok_count }}</td>
+        <td>{{ test_pipeline_summary.ng_count }}</td>
+        <td><input type="button" value="参照" onclick="location.href = '/detail?test_result_seq={{ test_result.test_result_seq }}&test_pipeline_summary_seq={{ test_pipeline_summary.test_pipeline_summary_seq }}';"></td>
+      </tr>
+    {% endfor %}
+  </table>
+</div>
+
+<div class="list">
+  <h3>Version</h3>
+  <table class="ta1">
+    <tr><th>SW分類</th><th>SW-ID</th><th>SW名</th><th>Version</th></tr>
+    {% for test_version_run in test_version_runs %}
+    <tr>
+      <td>{{ test_version_run.sw_category }}</td>
+      <td>{{ test_version_run.sw_id }}</td>
+      <td>{{ test_version_run.sw_name }}</td>
+      <td>{{ test_version_run.sw_version }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+
+</section>
+<!--/#category-->
+<p class="centered-text"><input type="button" value="戻る" onclick="location.href = '/';"></p>
+</div>
+<!--/#contents-->
+
+</div>
+<!--/#container-->
+
+<footer>
+  <p>Demo from Red Hat</p>
+</footer>
+
+<!--CSSファイルの読み込み-->
+<link href="/static/css/main.css" rel="stylesheet">
+
+<!--jQueryファイルの読み込み-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</body>
+</html>
