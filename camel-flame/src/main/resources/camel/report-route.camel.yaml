@@ -1,0 +1,14 @@
+- route:
+    id: route-process
+    description: テスト結果登録
+    from:
+      id: from-test-result
+      description: テスト結果登録
+      uri: rest
+      parameters:
+        method: post
+        path: demo/test_result
+      steps:
+        - to:
+            id: to-3996
+            uri: kamelet:postgresql-sink

@@ -24,7 +24,7 @@ class Test_result(db.Model):
     run_count = db.Column(db.Integer)
     ok_count = db.Column(db.Integer)
     ng_count = db.Column(db.Integer)
-    create_time = db.Column(db.DateTime, nullable=False, default=datetime.now().strftime('YYYY-mm-dd HH:MM:SS'))
+    create_time = db.Column(db.DateTime, nullable=False, default=datetime.now().strftime('%Y%m%d %H:%M:%S'))
 
 class Test_pipeline_summary(db.Model):
     test_pipeline_summary_seq = db.Column(db.Integer, primary_key=True)
@@ -38,7 +38,7 @@ class Test_pipeline_summary(db.Model):
     run_count = db.Column(db.Integer)
     ok_count = db.Column(db.Integer)
     ng_count = db.Column(db.Integer)
-    create_time = db.Column(db.DateTime, nullable=False, default=datetime.now().strftime('YYYY-mm-dd HH:MM:SS'))
+    create_time = db.Column(db.DateTime, nullable=False, default=datetime.now().strftime('%Y%m%d %H:%M:%S'))
 
 class Test_task_run(db.Model):
     test_task_run_seq = db.Column(db.Integer, primary_key=True)
@@ -52,7 +52,7 @@ class Test_task_run(db.Model):
     end_time = db.Column(db.DateTime)
     test_result = db.Column(db.String(), nullable=False)
     evidence_link = db.Column(db.String())
-    create_time = db.Column(db.DateTime, nullable=False, default=datetime.now().strftime('YYYY-mm-dd HH:MM:SS'))
+    create_time = db.Column(db.DateTime, nullable=False, default=datetime.now().strftime('%Y%m%d %H:%M:%S'))
 
 class Test_version_run(db.Model):
     test_version_run_seq = db.Column(db.Integer, primary_key=True)
@@ -62,7 +62,7 @@ class Test_version_run(db.Model):
     sw_id = db.Column(db.String())
     sw_name = db.Column(db.String(255))
     sw_version = db.Column(db.String())
-    create_time = db.Column(db.DateTime, nullable=False, default=datetime.now().strftime('YYYY-mm-dd HH:MM:SS'))
+    create_time = db.Column(db.DateTime, nullable=False, default=datetime.now().strftime('%Y%m%d %H:%M:%S'))
 
 # Root
 @app.route("/")

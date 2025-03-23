@@ -1,8 +1,8 @@
 # Report Viewer
 ## Build
-#### podman build -t <<image_name>> .
+#### podman build -t report-viewer .
 ## Run
-#### podman run -d --name <<container_name>> -p 8088:8088 <<image_name>>
+#### podman run -d --pod report-pod --name report-viewer report-viewer
 
 ## VENV
 #### source /Users/kemori/dev/python/py3-13-2/bin/activate

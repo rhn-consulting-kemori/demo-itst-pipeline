@@ -1,8 +1,9 @@
 # test_result
-INSERT INTO test_result (test_id, test_name, test_description, create_time) values ('ST-E001-00000001', 'sample-test', 'sample', '2025-03-21 16:00:00');
-INSERT INTO test_result (test_id, test_name, test_description, create_time) values ('ST-E001-00000002', 'サンプルテスト', 'サンプル', '2025-03-21 17:00:00');
-UPDATE test_result set run_count = 37, ok_count = 37, ng_count = 0 where test_id = 'ST-E001-00000001';
-UPDATE test_result set run_count = 37, ok_count = 37, ng_count = 0 where test_id = 'ST-E001-00000002';
+INSERT INTO test_result 
+(test_id, test_name, test_description, run_count, ok_count, ng_count, create_time) 
+values 
+('ST-E001-00000001', 'sample-test', 'sample', 37, 37, 0, '2025-03-21 16:00:00'),
+('ST-E001-00000002', 'サンプルテスト', 'サンプル', 37, 37, 0, '2025-03-21 17:00:00');
 
 # test_pipeline_summary
 INSERT INTO test_pipeline_summary 
@@ -65,6 +66,7 @@ INSERT INTO test_pipeline_summary
 values 
 (2, 'ST-E001-00000002', 'クロージング', '環境スクラップ', '2025-03-21 17:15:00', '2025-03-21 17:16:00', 1, 1, 0, '2025-03-21 17:16:00');
 
+# test_version_run
 INSERT INTO test_version_run 
 (test_result_seq, test_id, sw_category, sw_id, sw_name, sw_version, create_time) 
 values 
@@ -83,6 +85,7 @@ values
 (2, 'ST-E001-00000002', 'バッチ', 'BT000003', '請求実績作成', '2.2.0', '2025-03-21 17:03:00'),
 (2, 'ST-E001-00000002', 'バッチ', 'BT000004', '請求明細書作成', '2.3.0', '2025-03-21 17:03:00');
 
+# test_task_run
 INSERT INTO test_task_run 
 (test_result_seq, test_id, test_group, test_pipeline, test_task, start_time, end_time, test_result, evidence_link, create_time) 
 values 
