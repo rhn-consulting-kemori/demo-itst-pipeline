@@ -67,7 +67,7 @@ class Test_version_run(db.Model):
 # Root
 @app.route("/")
 def index():
-    test_results = Test_result.query.all()
+    test_results = Test_result.query.order_by(Test_result.test_result_seq.desc()).all()
     return render_template('index.html', test_results=test_results)
 
 @app.route("/report")
@@ -76,12 +76,12 @@ def report():
         # Query Parameter Exists
         query_test_result_seq = request.args.get('test_result_seq')
         test_result = Test_result.query.get(query_test_result_seq)
-        test_pipeline_summarys = Test_pipeline_summary.query.filter(Test_pipeline_summary.test_result_seq == query_test_result_seq)
-        test_version_runs = Test_version_run.query.filter(Test_version_run.test_result_seq == query_test_result_seq)
+        test_pipeline_summarys = Test_pipeline_summary.query.order_by(Test_pipeline_summary.test_pipeline_summary_seq).filter(Test_pipeline_summary.test_result_seq == query_test_result_seq)
+        test_version_runs = Test_version_run.query.order_by(Test_version_run.test_version_run_seq).filter(Test_version_run.test_result_seq == query_test_result_seq)
         return render_template('report.html', test_result=test_result, test_pipeline_summarys=test_pipeline_summarys, test_version_runs=test_version_runs)
     else:
         # Query Parameter Not Exists
-        test_results = Test_result.query.all()
+        test_results = Test_result.query.order_by(Test_result.test_result_seq.desc()).all()
         return render_template('index.html', test_results=test_results)
 
 @app.route("/detail")
@@ -92,11 +92,11 @@ def detail():
         query_test_pipeline_summary_seq = request.args.get('test_pipeline_summary_seq')
         test_result = Test_result.query.get(query_test_result_seq)
         test_pipeline_summary = Test_pipeline_summary.query.get(query_test_pipeline_summary_seq)
-        test_task_runs = Test_task_run.query.filter(Test_task_run.test_result_seq == query_test_result_seq, Test_task_run.test_group == test_pipeline_summary.test_group, Test_task_run.test_pipeline == test_pipeline_summary.test_pipeline, Test_task_run.simulation_date == test_pipeline_summary.simulation_date)
+        test_task_runs = Test_task_run.query.order_by(Test_task_run.test_task_run_seq).filter(Test_task_run.test_result_seq == query_test_result_seq, Test_task_run.test_group == test_pipeline_summary.test_group, Test_task_run.test_pipeline == test_pipeline_summary.test_pipeline, Test_task_run.simulation_date == test_pipeline_summary.simulation_date)
         return render_template('detail.html', test_result=test_result, test_pipeline_summary=test_pipeline_summary, test_task_runs=test_task_runs)
     else:
         # Query Parameter Not Exists
-        test_results = Test_result.query.all()
+        test_results = Test_result.query.order_by(Test_result.test_result_seq.desc()).all()
         return render_template('index.html', test_results=test_results)
 
 if __name__ == "__main__":
