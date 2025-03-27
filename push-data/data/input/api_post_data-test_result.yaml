@@ -1,0 +1,6 @@
+name: test_result
+url: http://127.0.0.1:8089/api/test_result
+method: POST
+description: テスト結果登録
+data_list:
+    - '{"test_id": "ST-E001-00000002", "test_name": "サンプルテスト", "test_description": "サンプル"}'

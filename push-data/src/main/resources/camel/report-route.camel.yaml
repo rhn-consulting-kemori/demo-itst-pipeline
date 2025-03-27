@@ -1,0 +1,167 @@
+- route:
+    id: route-api-process
+    description: APIデータ投入
+    from:
+      id: from-file
+      description: APIデータ投入
+      uri: file
+      parameters:
+        charset: utf-8
+        directoryName: data/input
+      steps:
+        - setProperty:
+            id: setProperty-3856
+            description: 入力データ保存
+            expression:
+              simple:
+                expression: ${body}
+            name: api_post_data_yaml
+        - log:
+            id: log-2272
+            description: start log
+            message: "[push-data] -- start"
+        - setBody:
+            id: setBody-4242
+            description: Yaml設定
+            expression:
+              simple:
+                expression: ${exchangeProperty.api_post_data_yaml}
+        - to:
+            id: to-bean-unmarshall
+            description: YamltoClass変換
+            uri: bean
+            parameters:
+              beanName: apiYamlToClassRule
+              method: getYamltoEntity
+        - setProperty:
+            id: setProperty-1612
+            description: 変換データ保存
+            expression:
+              simple:
+                expression: ${body}
+            name: api_post_data
+        - setBody:
+            id: setBody-2149
+            expression:
+              simple:
+                expression: >-
+                  [test]
+
+                  name:${exchangeProperty.api_post_data.name}
+
+                  description:${exchangeProperty.api_post_data.description}
+
+                  url:${exchangeProperty.api_post_data.url},method:${exchangeProperty.api_post_data.method}\n\n
+        - to:
+            id: to-1696
+            description: Logファイル書き込み
+            uri: file
+            parameters:
+              charset: utf-8
+              directoryName: data/output
+              fileExist: Append
+              fileName: api-log.txt
+        - setBody:
+            id: setBody-3857
+            description: 投入データ設定
+            expression:
+              simple:
+                expression: ${exchangeProperty.api_post_data.data_list}
+        - split:
+            id: split-8623
+            steps:
+              - log:
+                  id: log-api-input
+                  description: input-log
+                  message: input:${body}
+              - setProperty:
+                  id: setProperty-1173
+                  description: Input-data
+                  expression:
+                    simple:
+                      expression: ${body}
+                  name: input-body
+              - setHeader:
+                  id: setHeader-7688
+                  expression:
+                    simple:
+                      expression: application/json
+                  name: Exchange.CONTENT_TYPE
+              - to:
+                  id: to-api-call
+                  description: API-Call
+                  uri: http
+                  parameters:
+                    httpMethod: POST
+                    httpUri: "{{app.url-push-data}}"
+              - setProperty:
+                  id: setProperty-3760
+                  description: result-data
+                  expression:
+                    simple:
+                      expression: ${body}
+                  name: result-body
+              - setProperty:
+                  id: setProperty-2933
+                  expression:
+                    simple:
+                      expression: ${header.CamelHttpResponseCode}
+                  name: response_code
+              - setBody:
+                  id: setBody-4002
+                  expression:
+                    simple:
+                      expression: |
+                        [input]
+                        ${exchangeProperty.input-body}
+
+                        [result]
+                        ResponseCode: ${exchangeProperty.response_code}
+                        ${exchangeProperty.result-body}\n
+              - to:
+                  id: to-9127
+                  description: Logファイル書き込み
+                  uri: file
+                  parameters:
+                    charset: utf-8
+                    directoryName: data/output
+                    fileExist: Append
+                    fileName: api-log.txt
+              - choice:
+                  id: choice-7111
+                  description: Error判断
+                  otherwise:
+                    id: otherwise-2376
+                    steps:
+                      - setBody:
+                          id: setBody-2453
+                          expression:
+                            simple:
+                              expression: NG:${exchangeProperty.result-body}
+                      - log:
+                          id: log-1181
+                          message: ${body}
+                      - to:
+                          id: to-1759
+                          uri: file
+                          parameters:
+                            charset: utf-8
+                            directoryName: data/output
+                            fileName: error.txt
+                  when:
+                    - id: when-2310
+                      description: ResponseCode == 201
+                      steps:
+                        - log:
+                            id: log-1528
+                            message: OK:${exchangeProperty.result-body}
+                      expression:
+                        simple:
+                          expression: ${exchangeProperty.response_code} == 201
+            expression:
+              simple:
+                expression: ${body}
+        - log:
+            id: log-data
+            description: end log
+            message: "[push-data] -- complete"

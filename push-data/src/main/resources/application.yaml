@@ -1,0 +1,6 @@
+server:
+  port: 8180
+
+app:
+  url-push-data: ${URL_PUSH_DATA:localhost:8089/api/test_result}
+  
