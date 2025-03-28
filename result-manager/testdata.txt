@@ -68,7 +68,7 @@ curl -X POST -H "Content-Type: application/json" -d '' http://127.0.0.1:8089/api
 {"test_result_seq": 2, "test_id": "ST-E001-00000002", "test_group": "テストシナリオ", "test_pipeline": "オンライン停止", "simulation_date": "2025-03-20"}
 {"test_result_seq": 2, "test_id": "ST-E001-00000002", "test_group": "クロージング", "test_pipeline": "環境スクラップ", "simulation_date": ""}
 
-# /api/pipeline_summary
+# /api/test_result_summary
 ## curl
 curl -X POST -H "Content-Type: application/json" -d '{}' http://127.0.0.1:8089/api/test_result_summary
 ## data
