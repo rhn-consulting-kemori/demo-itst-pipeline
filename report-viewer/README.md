@@ -9,3 +9,4 @@
 #### deactivate
 
 oc new-app https://github.com/rhn-consulting-kemori/demo-itst-pipeline.git --context-dir=report-viewer -e DB_HOST=postgresql.demo-report.svc.cluster.local --name=report-viewer
+oc expose service/report-viewer
