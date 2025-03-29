@@ -9,6 +9,10 @@ WORKDIR $project_dir
 RUN pip install -r requirements.txt
 
 # ENV Parameter
-# DB_USER, DB_PASS, DB_HOST, DB_PORT, DB_NAME
+ENV DB_USER=postgres
+ENV DB_PASS=postgres
+ENV DB_HOST=127.0.0.1
+ENV DB_PORT=5432
+ENV DB_NAME=postgres
 
 CMD ["python", "app.py"]
